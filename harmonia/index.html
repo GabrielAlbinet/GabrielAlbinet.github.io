@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Harmonia | Gabriel Albinet</title>
+  <meta name="description" content="Harmonia, simulation de plateforme de streaming musical réalisée avec Symfony dans le cadre de la formation CDA.">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    :root { --bs-danger: #ce0033; --bs-danger-rgb: 206, 0, 51; }
+    .btn-danger { --bs-btn-bg: #ce0033; --bs-btn-border-color: #ce0033; --bs-btn-hover-bg: #a8002a; --bs-btn-hover-border-color: #a8002a; --bs-btn-active-bg: #a8002a; --bs-btn-active-border-color: #a8002a; }
+  </style>
+</head>
+<body class="bg-white text-dark">
+  <nav class="navbar navbar-expand-md bg-white border-bottom border-danger border-3 sticky-top">
+    <div class="container">
+      <a class="navbar-brand fw-bold text-dark" href="/">Gabriel Albinet</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu" aria-controls="menu" aria-expanded="false" aria-label="Ouvrir le menu">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="menu">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link text-dark" href="/#projets">Projets</a></li>
+          <li class="nav-item"><a class="nav-link text-dark" href="/#competences">Compétences</a></li>
+          <li class="nav-item"><a class="nav-link text-dark" href="/#contact">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <header class="py-5 bg-white text-dark border-bottom border-danger border-3">
+    <div class="container">
+      <a class="text-dark small" href="/#projets">← Retour aux projets</a>
+      <h1 class="display-5 fw-bold mt-3 mb-2">Harmonia</h1>
+      <p class="lead mb-0">Plateforme de streaming musical · Projet CDA</p>
+    </div>
+  </header>
+
+  <main>
+    <section class="py-5 bg-white text-dark border-bottom border-danger border-3">
+      <div class="container">
+        <div class="col-lg-9 mx-auto">
+          <div id="carouselHarmonia" class="carousel slide border" data-bs-theme="dark" data-bs-ride="false">
+            <div class="carousel-indicators">
+              <button type="button" data-bs-target="#carouselHarmonia" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Image 1"></button>
+              <button type="button" data-bs-target="#carouselHarmonia" data-bs-slide-to="1" aria-label="Image 2"></button>
+              <button type="button" data-bs-target="#carouselHarmonia" data-bs-slide-to="2" aria-label="Image 3"></button>
+            </div>
+            <div class="carousel-inner">
+              <div class="carousel-item active">
+                <div class="ratio ratio-16x9 bg-light">
+                  <img src="1.png" class="d-block w-100 object-fit-contain" alt="Harmonia, capture 1">
+                </div>
+              </div>
+              <div class="carousel-item">
+                <div class="ratio ratio-16x9 bg-light">
+                  <img src="2.png" class="d-block w-100 object-fit-contain" alt="Harmonia, capture 2">
+                </div>
+              </div>
+              <div class="carousel-item">
+                <div class="ratio ratio-16x9 bg-light">
+                  <img src="3.png" class="d-block w-100 object-fit-contain" alt="Harmonia, capture 3">
+                </div>
+              </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselHarmonia" data-bs-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Précédent</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselHarmonia" data-bs-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Suivant</span>
+            </button>
+          </div>
+
+          <h2 class="h4 fw-bold mt-5 mb-3">Présentation</h2>
+          <p>Harmonia est une plateforme de streaming musical pour un label indépendant : catalogue d’albums et de morceaux, fiches artistes, classement par genres, playlists personnelles, favoris et historique d’écoute. Le projet est une application Symfony complète, rendue côté serveur avec Twig, développée en cinq jours — de la modélisation des entités jusqu’au back-office et aux interactions sans rechargement.</p>
+
+          <h3 class="h5 fw-bold mt-4 mb-2">Stack technique</h3>
+          <ul>
+            <li><strong>Back</strong> : PHP 8.4, Symfony 8.1, Doctrine ORM 3.7, MariaDB</li>
+            <li><strong>Front</strong> : Twig, Bootstrap 5, AssetMapper (importmap, sans bundler), JavaScript natif (<code>fetch</code>)</li>
+            <li><strong>Sécurité</strong> : SecurityBundle, authenticator personnalisé, hachage automatique des mots de passe, protection CSRF sans état</li>
+            <li><strong>Outils</strong> : Doctrine Migrations, Foundry (jeux de données), profiler Symfony, phpMyAdmin, Git/GitHub</li>
+          </ul>
+
+          <h3 class="h5 fw-bold mt-4 mb-2">Modélisation et relations</h3>
+          <p>J’ai modélisé huit entités — User, Artist, Album, Track, Genre, Playlist, Favorite, ListeningHistory — et fait évoluer le schéma par migrations versionnées. Deux choix de modélisation méritent d’être détaillés, parce qu’ils ne vont pas de soi :</p>
+          <ul>
+            <li><strong>L’historique d’écoute ne pouvait pas être un simple ManyToMany</strong> : un même utilisateur écoute plusieurs fois le même morceau, et chaque écoute doit être horodatée. Une table de liaison ne permet de stocker qu’une seule association ; j’en ai donc fait une entité à part entière, porteuse de sa propre date.</li>
+            <li><strong>Les favoris suivent la même logique</strong> : modélisés comme entité dédiée (utilisateur, morceau, date d’ajout) plutôt qu’en relation directe, ce qui permet de savoir <em>quand</em> un morceau a été mis en favori.</li>
+          </ul>
+          <p>Le type d’album (album, EP, single) est une énumération PHP typée, mappée en base par Doctrine : les valeurs possibles sont garanties par le langage lui-même, pas par une convention. Les suppressions en cascade sont déclarées au niveau du mapping : supprimer un artiste retire ses albums, leurs morceaux, et les favoris et écoutes qui s’y rattachent, sans laisser de références orphelines.</p>
+
+          <h3 class="h5 fw-bold mt-4 mb-2">Architecture et organisation du code</h3>
+          <p>J’ai réparti les responsabilités selon le découpage Symfony :</p>
+          <ul>
+            <li><strong>Entités</strong> : la structure des données et leurs relations, décrites par attributs PHP</li>
+            <li><strong>Repositories</strong> : tout l’accès en lecture, y compris les requêtes personnalisées écrites en DQL avec le QueryBuilder</li>
+            <li><strong>Contrôleurs</strong> : fins, ils coordonnent et délèguent</li>
+            <li><strong>Formulaires</strong> : la saisie et sa validation, isolées dans des classes dédiées</li>
+            <li><strong>Templates Twig</strong> : l’affichage seul</li>
+          </ul>
+          <p>Côté templates, j’ai factorisé ce qui se répétait : un gabarit de base dont toutes les pages héritent, et des composants inclus pour la carte d’album et les sections du catalogue. Les composants sont inclus en contexte isolé, de sorte qu’ils déclarent explicitement ce dont ils ont besoin au lieu de dépendre des variables de la page appelante.</p>
+          <p>La liste des genres affichée dans la navigation posait un problème transverse : chaque contrôleur devait penser à la transmettre, sous peine de casser le menu. Je l’ai sortie dans une extension Twig — une fonction appelée directement depuis le gabarit, qui interroge le repository à la demande. Une vingtaine de méthodes de contrôleur s’en trouvent allégées.</p>
+
+          <h3 class="h5 fw-bold mt-4 mb-2">Formulaires et validation</h3>
+          <p>Chaque entité dispose de son formulaire. Deux cas ont demandé plus qu’une déclaration de champs :</p>
+          <ul>
+            <li><strong>L’upload de pochette</strong> : le fichier n’est pas une propriété de l’entité, il est traité à part, contraint en taille et en type MIME, renommé puis déplacé, et seul son chemin est stocké. Le même formulaire sert à la création et à la modification, avec une option qui rend la pochette obligatoire uniquement à la création.</li>
+            <li><strong>Les formulaires de suppression</strong> : construits sur une liste déroulante alimentée par les entités existantes, avec filtrage selon l’utilisateur connecté pour les playlists — on ne peut supprimer que les siennes.</li>
+          </ul>
+
+          <h3 class="h5 fw-bold mt-4 mb-2">Authentification et sécurité</h3>
+          <ul>
+            <li>Authenticator personnalisé, mots de passe hachés automatiquement par Symfony, jamais manipulés en clair</li>
+            <li>Connexion persistante par cookie signé (« se souvenir de moi »)</li>
+            <li>Protection CSRF sans état : le jeton est comparé à un cookie déposé côté client, sans rien stocker en session, ce qui évite d’occuper la mémoire serveur et reste compatible avec le cache HTTP</li>
+            <li>Affichage conditionné à l’authentification : les actions d’édition et les favoris n’apparaissent qu’aux utilisateurs connectés, et les contrôleurs le vérifient côté serveur plutôt que de se fier au template</li>
+          </ul>
+
+          <h3 class="h5 fw-bold mt-4 mb-2">Interactions sans rechargement</h3>
+          <p>Deux fonctionnalités passent par des requêtes asynchrones, avec des routes limitées au verbe POST qui répondent en JSON :</p>
+          <ul>
+            <li><strong>Le bouton favori</strong> bascule l’état en base et renvoie le nouvel état ; le JavaScript met à jour le libellé et la couleur du bouton sur place.</li>
+            <li><strong>Le bouton d’écoute</strong> incrémente le compteur global du morceau et enregistre une ligne d’historique pour l’utilisateur connecté. La réponse porte le nouveau compteur et la date d’écoute, que le script injecte dans la ligne concernée — en remontant du bouton cliqué jusqu’à son conteneur, pour viser le bon morceau parmi la centaine affichée.</li>
+          </ul>
+          <p>Les deux écritures en base sont envoyées en une seule transaction, l’accumulation des changements étant gérée par Doctrine.</p>
+
+          <h2 class="h4 fw-bold mt-4 mb-3">Technologies</h2>
+          <div class="d-flex flex-wrap gap-1 mb-4">
+            <span class="badge text-bg-dark">Symfony</span>
+            <span class="badge text-bg-dark">PHP</span>
+            <span class="badge text-bg-dark">Twig</span>
+            <span class="badge text-bg-dark">Doctrine</span>
+            <span class="badge text-bg-dark">MariaDB</span>
+            <span class="badge text-bg-dark">JavaScript</span>
+            <span class="badge text-bg-dark">Bootstrap</span>
+            <span class="badge text-bg-dark">phpMyAdmin</span>
+            <span class="badge text-bg-dark">Git/GitHub</span>
+          </div>
+
+          <div class="d-flex flex-wrap gap-2">
+            <a class="btn btn-danger" href="https://github.com/PSEUDO/harmonia" target="_blank" rel="noopener">Voir le code</a>
+            <a class="btn btn-outline-dark" href="/#projets">Retour aux projets</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="py-4 bg-white text-dark text-center border-top border-danger border-3">
+    <div class="container">Gabriel Albinet, en formation CDA chez Simplon, Clermont-Ferrand</div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

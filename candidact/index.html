@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Candid'Act | Gabriel Albinet</title>
+  <meta name="description" content="Candid'Act, outil de suivi de candidatures réalisé en équipe avec Angular, Symfony et API Platform lors d'un hackathon de la formation CDA.">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    :root { --bs-danger: #ce0033; --bs-danger-rgb: 206, 0, 51; }
+    .btn-danger { --bs-btn-bg: #ce0033; --bs-btn-border-color: #ce0033; --bs-btn-hover-bg: #a8002a; --bs-btn-hover-border-color: #a8002a; --bs-btn-active-bg: #a8002a; --bs-btn-active-border-color: #a8002a; }
+  </style>
+</head>
+<body class="bg-white text-dark">
+  <nav class="navbar navbar-expand-md bg-white border-bottom border-danger border-3 sticky-top">
+    <div class="container">
+      <a class="navbar-brand fw-bold text-dark" href="/">Gabriel Albinet</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu" aria-controls="menu" aria-expanded="false" aria-label="Ouvrir le menu">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="menu">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link text-dark" href="/#projets">Projets</a></li>
+          <li class="nav-item"><a class="nav-link text-dark" href="/#competences">Compétences</a></li>
+          <li class="nav-item"><a class="nav-link text-dark" href="/#contact">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <header class="py-5 bg-white text-dark border-bottom border-danger border-3">
+    <div class="container">
+      <a class="text-dark small" href="/#projets">← Retour aux projets</a>
+      <h1 class="display-5 fw-bold mt-3 mb-2">Candid'Act</h1>
+      <p class="lead mb-0">Outil de suivi de candidatures · Projet CDA / Hackathon</p>
+    </div>
+  </header>
+
+  <main>
+    <section class="py-5 bg-white text-dark border-bottom border-danger border-3">
+      <div class="container">
+        <div class="col-lg-9 mx-auto">
+          <div id="carouselCandidact" class="carousel slide border" data-bs-theme="dark" data-bs-ride="false">
+            <div class="carousel-indicators">
+              <button type="button" data-bs-target="#carouselCandidact" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Image 1"></button>
+              <button type="button" data-bs-target="#carouselCandidact" data-bs-slide-to="1" aria-label="Image 2"></button>
+              <button type="button" data-bs-target="#carouselCandidact" data-bs-slide-to="2" aria-label="Image 3"></button>
+            </div>
+            <div class="carousel-inner">
+              <div class="carousel-item active">
+                <div class="ratio ratio-16x9 bg-light">
+                  <img src="1.png" class="d-block w-100 object-fit-contain" alt="Candid'Act, tableau de bord">
+                </div>
+              </div>
+              <div class="carousel-item">
+                <div class="ratio ratio-16x9 bg-light">
+                  <img src="2.png" class="d-block w-100 object-fit-contain" alt="Candid'Act, détail d'une candidature">
+                </div>
+              </div>
+              <div class="carousel-item">
+                <div class="ratio ratio-16x9 bg-light">
+                  <img src="3.png" class="d-block w-100 object-fit-contain" alt="Candid'Act, formulaire d'ajout">
+                </div>
+              </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselCandidact" data-bs-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Précédent</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselCandidact" data-bs-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Suivant</span>
+            </button>
+          </div>
+
+          <h2 class="h4 fw-bold mt-5 mb-3">Présentation</h2>
+          <p>Candid'Act est un outil de suivi de candidatures : chaque utilisateur retrouve ses candidatures dans un tableau de bord, consulte le détail de chacune (offre, méthode de candidature, historique des statuts), suit quelques indicateurs sur son activité et voit des rappels sur les actions à mener. Le projet a été réalisé en équipe de quatre lors d'un hackathon d'une semaine de la formation CDA, d'après des maquettes Figma et des user stories découpées par fonctionnalité.</p>
+
+          <h3 class="h5 fw-bold mt-4 mb-2">Stack technique</h3>
+          <ul>
+            <li><strong>Front</strong> : Angular 19 (composants standalone, signaux), TypeScript, RxJS, Bootstrap 5</li>
+            <li><strong>Back</strong> : PHP 8.3, Symfony 7.4, API Platform 5, Doctrine ORM, MariaDB 11</li>
+            <li><strong>Sécurité</strong> : authentification par jeton JWT (LexikJWTAuthenticationBundle), mots de passe hachés par Symfony</li>
+            <li><strong>Outils</strong> : Docker Compose (front, back et base de données), Doctrine Fixtures, Git/GitHub avec une branche par user story, Figma (maquettes)</li>
+          </ul>
+
+          <h3 class="h5 fw-bold mt-4 mb-2">Ma contribution</h3>
+          <p>J'ai pris en charge le tableau de bord et ses deux blocs de suivi, du front jusqu'au back, puis l'intégration du travail de l'équipe :</p>
+          <ul>
+            <li><strong>La liste des candidatures</strong> : cartes fidèles à la maquette, pagination, états de chargement, d'erreur et d'absence de données.</li>
+            <li><strong>La recherche</strong> : une barre avec attente de 300 ms entre deux frappes, branchée sur le filtre du back, qui adapte directement les cartes affichées.</li>
+            <li><strong>Les statistiques</strong> : quatre indicateurs (candidatures envoyées, envoyées cette semaine, entretiens, relances) calculés par un service dédié et exposés par la route <code>GET /api/stats</code>.</li>
+            <li><strong>Les rappels</strong> : un bandeau d'actions à mener, trié par échéance avec les retards en premier, alimenté par la route <code>GET /api/alerts</code>.</li>
+            <li><strong>L'intégration</strong> : fusion des branches de l'équipe (ajout d'une candidature, page de détail), résolution des conflits, et dépannage de l'environnement Docker pour que chacun puisse travailler.</li>
+          </ul>
+
+          <h3 class="h5 fw-bold mt-4 mb-2">Modélisation des données</h3>
+          <p>Le modèle compte huit entités : User, Application, Company, Offer, ApplicationMethod, Status, StatusApplication et Reminder. Un choix de modélisation structure toute l'application :</p>
+          <ul>
+            <li><strong>Le statut n'est pas une colonne de la candidature</strong> : chaque changement est une ligne de l'entité <code>StatusApplication</code> (candidature, statut, date). Le statut courant est le plus récent, et l'historique affiché dans le détail vient de la même table. C'est aussi ce qui permet de savoir qu'une candidature a déjà été relancée.</li>
+            <li><strong>L'offre est facultative</strong> : une candidature peut exister sans offre associée, ce qui oblige le back et le front à gérer les deux cas, par exemple pour le titre affiché sur une carte.</li>
+          </ul>
+
+          <h3 class="h5 fw-bold mt-4 mb-2">Architecture du back</h3>
+          <p>Le back combine deux approches, chacune pour ce qu'elle fait de mieux :</p>
+          <ul>
+            <li><strong>API Platform</strong> pour ce qui ressemble à du CRUD : la liste des candidatures (groupes de sérialisation, tri, filtre de recherche sur le poste et l'entreprise) et l'inscription (validation et erreurs structurées).</li>
+            <li><strong>Des contrôleurs Symfony</strong> pour les cas particuliers : création et détail d'une candidature, statistiques et rappels.</li>
+            <li><strong>Une extension Doctrine</strong> qui restreint automatiquement la liste aux candidatures de l'utilisateur connecté, sans que chaque requête ait à y penser.</li>
+          </ul>
+          <p>Cette cohabitation a posé un vrai problème : deux routes sur la même URL, et c'est API Platform qui l'emportait. J'ai identifié la cause (une route d'item interne qui répondait toujours 404) et réglé le conflit en lui attribuant un autre chemin.</p>
+
+          <h3 class="h5 fw-bold mt-4 mb-2">Statistiques et rappels calculés à la demande</h3>
+          <p>Ni les statistiques ni les rappels ne sont stockés en base : ils sont recalculés à chaque affichage, uniquement à partir des candidatures de l'utilisateur.</p>
+          <ul>
+            <li><strong>Des services indépendants</strong> : les règles de calcul sont dans deux classes de service, sans dépendance au contrôleur ni à la base. Elles reçoivent des données et la date du jour, ce qui les rend testables à une date fixe.</li>
+            <li><strong>Une semaine du lundi au dimanche</strong>, calculée dans le fuseau Europe/Paris, avec des comparaisons au jour et non à l'heure.</li>
+            <li><strong>Des règles de rappel par statut</strong> : postuler, relancer, abandonner après deux relances, préparer ou relancer après un entretien, répondre à une offre, et aucune alerte pour les statuts finaux. Les délais sont des constantes nommées, pas des chiffres répétés dans le code.</li>
+          </ul>
+
+          <h3 class="h5 fw-bold mt-4 mb-2">Interface Angular</h3>
+          <ul>
+            <li><strong>Templates séparés</strong> dans des fichiers <code>.html</code>, et contrôle de flux moderne (<code>@if</code>, <code>@for</code>) avec la vérification stricte des templates activée : une erreur de type bloque la compilation.</li>
+            <li><strong>Signaux</strong> pour les données d'entrée des composants et pour charger la page de détail à partir de l'identifiant de l'URL.</li>
+            <li><strong>Une charte graphique en variables CSS</strong> (couleurs et polices) et des classes utilitaires Bootstrap plutôt que du CSS à la main, avec une mise en page adaptée au mobile.</li>
+            <li><strong>Des états toujours prévus</strong> : chargement, erreur et absence de données sur chaque bloc, et une erreur sur les statistiques ou les rappels ne bloque jamais la liste.</li>
+          </ul>
+
+          <h3 class="h5 fw-bold mt-4 mb-2">Authentification et sécurité</h3>
+          <ul>
+            <li>Connexion par jeton JWT : le front le conserve et l'ajoute à chaque requête grâce à un intercepteur HTTP.</li>
+            <li>Une garde de navigation protège les pages privées et renvoie vers la connexion sans jeton.</li>
+            <li>Côté back, les routes sont réservées aux utilisateurs connectés et limitées à leurs propres données : la liste, le détail, les statistiques et les rappels ne montrent que les candidatures de l'utilisateur.</li>
+          </ul>
+
+          <h3 class="h5 fw-bold mt-4 mb-2">Travail en équipe et enseignements</h3>
+          <p>Une branche par user story, des merges réguliers et un environnement Docker commun. Ce qui nous a le plus ralentis n'était pas le code, mais l'intégration :</p>
+          <ul>
+            <li><strong>Des merges qui écrasaient ou dupliquaient des fichiers</strong> : j'en retiens un contrôle systématique (compilation du front et vérification de la syntaxe du back) avant tout merge dans la branche commune.</li>
+            <li><strong>Un format de réponse API pas toujours défini avant de coder</strong> : le front attendait des champs que le back ne renvoyait pas encore. Je retiens d'écrire, pour chaque user story, une courte fiche (route, méthode, exemple de réponse) validée par le front et le back.</li>
+            <li><strong>Des tests négligés</strong> : les règles de calcul sont isolées dans des services justement pour pouvoir les tester, et ce serait la première étape si le projet continuait.</li>
+          </ul>
+
+          <h2 class="h4 fw-bold mt-4 mb-3">Technologies</h2>
+          <div class="d-flex flex-wrap gap-1 mb-4">
+            <span class="badge text-bg-dark">Angular</span>
+            <span class="badge text-bg-dark">TypeScript</span>
+            <span class="badge text-bg-dark">Symfony</span>
+            <span class="badge text-bg-dark">PHP</span>
+            <span class="badge text-bg-dark">API Platform</span>
+            <span class="badge text-bg-dark">Doctrine</span>
+            <span class="badge text-bg-dark">JWT</span>
+            <span class="badge text-bg-dark">MariaDB</span>
+            <span class="badge text-bg-dark">Docker</span>
+            <span class="badge text-bg-dark">Bootstrap</span>
+            <span class="badge text-bg-dark">Git/GitHub</span>
+          </div>
+
+          <div class="d-flex flex-wrap gap-2">
+            <a class="btn btn-danger" href="https://github.com/PSEUDO/candidact" target="_blank" rel="noopener">Voir le code</a>
+            <a class="btn btn-outline-dark" href="/#projets">Retour aux projets</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="py-4 bg-white text-dark text-center border-top border-danger border-3">
+    <div class="container">Gabriel Albinet, en formation CDA chez Simplon, Clermont-Ferrand</div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
