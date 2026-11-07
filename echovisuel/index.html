@@ -74,14 +74,15 @@
           </div>
 
           <h2 class="h4 fw-bold mt-5 mb-3">Présentation</h2>
-          <p>EchoVisuel est une application web de gestion de festivals : programmation des concerts, gestion des artistes, des lieux, de la billetterie et des participants. Le projet a démarré en front avec des données simulées, puis j’ai conçu et développé l’API REST qui alimente toute l’application, dans un monorepo commun au front et au back.</p>
+          <p>EchoVisuel est une application web de gestion de festivals : programmation des concerts, gestion des artistes, des lieux, de la billetterie et des participants. EchoVisuel a démarré en tant que projet Front
+            avec les 11 apprenants de la formation, divisés par paire, à une période où nous apprenions encore le versionning. Par la suite, j’ai conçu et développé individuellement l’API REST qui alimente toute l’application, dans un monorepo commun au front et au back.</p>
 
           <h3 class="h5 fw-bold mt-4 mb-2">Stack technique</h3>
           <ul>
             <li><strong>Back</strong> : Node.js, Express 5, TypeScript, Prisma 7, MariaDB</li>
             <li><strong>Sécurité</strong> : JWT, bcrypt, cookies httpOnly, Joi, express-rate-limit, CORS</li>
             <li><strong>Front</strong> : Angular 21 (composants standalone, signals), Tailwind CSS v4</li>
-            <li><strong>Outils</strong> : Thunder Client, Swagger (OpenAPI), Git/GitHub, Docker (en cours)</li>
+            <li><strong>Outils</strong> : Thunder Client, Swagger (OpenAPI), Git/GitHub, Docker</li>
           </ul>
 
           <h3 class="h5 fw-bold mt-4 mb-2">Couches de l'architecture</h3>
@@ -89,6 +90,7 @@
           <ul>
             <li><strong>Router</strong> : associe chaque URL et méthode HTTP à son traitement</li>
             <li><strong>Middlewares</strong> : vérifient l’existence de la ressource, valident les données entrantes et contrôlent l’authentification</li>
+            <li><strong>Validators</strong> : schémas Joi qui décrivent les données attendues (champs obligatoires, types, formats de date et d’heure), en création comme en modification</li>
             <li><strong>Controller</strong> : traduit la requête HTTP en appel métier et choisit le code de réponse</li>
             <li><strong>Service</strong> : porte les règles métier</li>
             <li><strong>Repository</strong> : seul point de contact avec la base via Prisma</li>
@@ -123,7 +125,7 @@
           <p>J’ai testé chaque route avec Thunder Client, cas nominaux comme cas d’erreur (données invalides, ressource introuvable, conflit de créneau, accès non authentifié). L’API est documentée avec Swagger : une documentation interactive, accessible sur <code>/api-docs</code>, qui décrit toutes les routes, leurs données attendues et leurs réponses, et permet de les tester directement.</p>
 
           <h3 class="h5 fw-bold mt-4 mb-2">Intégration front</h3>
-          <p>Côté Angular, j’ai remplacé les données simulées par des appels à l’API, avec des services fondés sur les signals. Les erreurs renvoyées par l’API (créneau déjà occupé, suppression non autorisée) sont affichées à l’utilisateur dans des modales, et un intercepteur HTTP gère l’envoi du cookie d’authentification sur toutes les requêtes.</p>
+          <p>Côté Angular, j’ai remplacé les données simulées par des appels à l’API, avec des services fondés sur les signaux. Les erreurs renvoyées par l’API (créneau déjà occupé, suppression non autorisée) sont affichées à l’utilisateur dans des modales, et un intercepteur HTTP gère l’envoi du cookie d’authentification sur toutes les requêtes.</p>
 
           <h2 class="h4 fw-bold mt-4 mb-3">Technologies</h2>
           <div class="d-flex flex-wrap gap-1 mb-4">
@@ -132,6 +134,8 @@
             <span class="badge text-bg-dark">Tailwind CSS</span>
             <span class="badge text-bg-dark">Node.js</span>
             <span class="badge text-bg-dark">Express</span>
+            <span class="badge text-bg-dark">JWT</span>
+            <span class="badge text-bg-dark">Swagger</span>
             <span class="badge text-bg-dark">Prisma</span>
             <span class="badge text-bg-dark">MySQL</span>
             <span class="badge text-bg-dark">Git/GitHub</span>

@@ -74,24 +74,29 @@
           </div>
 
           <h2 class="h4 fw-bold mt-5 mb-3">Présentation</h2>
-          <p>Candid'Act est un outil de suivi de candidatures : chaque utilisateur retrouve ses candidatures dans un tableau de bord, consulte le détail de chacune (offre, méthode de candidature, historique des statuts), suit quelques indicateurs sur son activité et voit des rappels sur les actions à mener. Le projet a été réalisé en équipe de quatre lors d'un hackathon d'une semaine de la formation CDA, d'après des maquettes Figma et des user stories découpées par fonctionnalité.</p>
+          <p>Candid'Act est un outil de suivi de candidatures, conçu durant un Hackathon mis en place par Simplon : 
+            chaque utilisateur retrouve ses candidatures dans un tableau de bord, consulte le détail de chacune (offre, méthode de candidature, historique des statuts),
+            dispose de quelques statistiques sur son activité et voit des rappels sur les actions à mener.
+            Le projet a été réalisé en équipe de quatre lors du hackathon (6 jours), des diagrammes UML aux maquettes, en passant par le développement.</p>
 
           <h3 class="h5 fw-bold mt-4 mb-2">Stack technique</h3>
           <ul>
             <li><strong>Front</strong> : Angular 19 (composants standalone, signaux), TypeScript, RxJS, Bootstrap 5</li>
             <li><strong>Back</strong> : PHP 8.3, Symfony 7.4, API Platform 5, Doctrine ORM, MariaDB 11</li>
             <li><strong>Sécurité</strong> : authentification par jeton JWT (LexikJWTAuthenticationBundle), mots de passe hachés par Symfony</li>
-            <li><strong>Outils</strong> : Docker Compose (front, back et base de données), Doctrine Fixtures, Git/GitHub avec une branche par user story, Figma (maquettes)</li>
+            <li><strong>Outils</strong> : Docker, Doctrine Fixtures, Git/GitHub avec une branche par user story, Figma (maquettes), Trello commun</li>
           </ul>
 
           <h3 class="h5 fw-bold mt-4 mb-2">Ma contribution</h3>
-          <p>J'ai pris en charge le tableau de bord et ses deux blocs de suivi, du front jusqu'au back, puis l'intégration du travail de l'équipe :</p>
+          <p>J'ai pris en charge 2 éléments du tableau de bord, du front jusqu'au back, ainsi que l'intégration du travail du reste de l'équipe sur celui-ci.
+             J'ai également fait le front des pages de connexion et d'inscription :</p>
           <ul>
+            <li><strong>Conception globale du projet (en équipe)</strong> : Diagrammes, concept, maquettes et wireframes, ainsi que la rédaction des user stories.</li>
+            <li><strong>La page de connexion et d'inscription</strong> : formulaires avec validation côté front, gestion des erreurs et des messages de succès.</li>
             <li><strong>La liste des candidatures</strong> : cartes fidèles à la maquette, pagination, états de chargement, d'erreur et d'absence de données.</li>
-            <li><strong>La recherche</strong> : une barre avec attente de 300 ms entre deux frappes, branchée sur le filtre du back, qui adapte directement les cartes affichées.</li>
             <li><strong>Les statistiques</strong> : quatre indicateurs (candidatures envoyées, envoyées cette semaine, entretiens, relances) calculés par un service dédié et exposés par la route <code>GET /api/stats</code>.</li>
-            <li><strong>Les rappels</strong> : un bandeau d'actions à mener, trié par échéance avec les retards en premier, alimenté par la route <code>GET /api/alerts</code>.</li>
-            <li><strong>L'intégration</strong> : fusion des branches de l'équipe (ajout d'une candidature, page de détail), résolution des conflits, et dépannage de l'environnement Docker pour que chacun puisse travailler.</li>
+            <li><strong>Les rappels</strong> : un bandeau d'actions à mener, trié par échéance avec les retards en premier.</li>
+            <li><strong>L'intégration (en équipe)</strong> : fusion des branches de l'équipe (ajout d'une candidature, page de détail et barre de recherche), résolution des conflits, et dépannage de l'environnement Docker pour que chacun puisse travailler.</li>
           </ul>
 
           <h3 class="h5 fw-bold mt-4 mb-2">Modélisation des données</h3>
@@ -108,12 +113,12 @@
             <li><strong>Des contrôleurs Symfony</strong> pour les cas particuliers : création et détail d'une candidature, statistiques et rappels.</li>
             <li><strong>Une extension Doctrine</strong> qui restreint automatiquement la liste aux candidatures de l'utilisateur connecté, sans que chaque requête ait à y penser.</li>
           </ul>
-          <p>Cette cohabitation a posé un vrai problème : deux routes sur la même URL, et c'est API Platform qui l'emportait. J'ai identifié la cause (une route d'item interne qui répondait toujours 404) et réglé le conflit en lui attribuant un autre chemin.</p>
+          <p>Cette cohabitation a posé un soucis : deux routes sur la même URL, et c'est API Platform qui l'emportait. Il a donc fallu atribué un autre chemin aux routes des quelques controllers.</p>
 
           <h3 class="h5 fw-bold mt-4 mb-2">Statistiques et rappels calculés à la demande</h3>
-          <p>Ni les statistiques ni les rappels ne sont stockés en base : ils sont recalculés à chaque affichage, uniquement à partir des candidatures de l'utilisateur.</p>
+          <p>Ni les statistiques ni les rappels ne sont stockés en base. : ils sont recalculés à chaque affichage, uniquement à partir des candidatures de l'utilisateur.</p>
           <ul>
-            <li><strong>Des services indépendants</strong> : les règles de calcul sont dans deux classes de service, sans dépendance au contrôleur ni à la base. Elles reçoivent des données et la date du jour, ce qui les rend testables à une date fixe.</li>
+            <li><strong>Des services indépendants</strong> : les règles de calcul sont dans deux classes de service, sans dépendance au contrôleur ni à la base.</li>
             <li><strong>Une semaine du lundi au dimanche</strong>, calculée dans le fuseau Europe/Paris, avec des comparaisons au jour et non à l'heure.</li>
             <li><strong>Des règles de rappel par statut</strong> : postuler, relancer, abandonner après deux relances, préparer ou relancer après un entretien, répondre à une offre, et aucune alerte pour les statuts finaux. Les délais sont des constantes nommées, pas des chiffres répétés dans le code.</li>
           </ul>
@@ -123,22 +128,24 @@
             <li><strong>Templates séparés</strong> dans des fichiers <code>.html</code>, et contrôle de flux moderne (<code>@if</code>, <code>@for</code>) avec la vérification stricte des templates activée : une erreur de type bloque la compilation.</li>
             <li><strong>Signaux</strong> pour les données d'entrée des composants et pour charger la page de détail à partir de l'identifiant de l'URL.</li>
             <li><strong>Une charte graphique en variables CSS</strong> (couleurs et polices) et des classes utilitaires Bootstrap plutôt que du CSS à la main, avec une mise en page adaptée au mobile.</li>
-            <li><strong>Des états toujours prévus</strong> : chargement, erreur et absence de données sur chaque bloc, et une erreur sur les statistiques ou les rappels ne bloque jamais la liste.</li>
+            <li><strong>Des états toujours prévus</strong> : chargement, erreur et absence de données sur chaque bloc, et une erreur sur les statistiques ou les rappels n'entrave pas le bon fonctionnement de l'application.</li>
           </ul>
 
           <h3 class="h5 fw-bold mt-4 mb-2">Authentification et sécurité</h3>
           <ul>
-            <li>Connexion par jeton JWT : le front le conserve et l'ajoute à chaque requête grâce à un intercepteur HTTP.</li>
-            <li>Une garde de navigation protège les pages privées et renvoie vers la connexion sans jeton.</li>
-            <li>Côté back, les routes sont réservées aux utilisateurs connectés et limitées à leurs propres données : la liste, le détail, les statistiques et les rappels ne montrent que les candidatures de l'utilisateur.</li>
+            <li><strong>Connexion par jeton JWT : </strong> le front le conserve et l'ajoute à chaque requête grâce à un intercepteur HTTP.</li>
+            <li><strong>Une garde de navigation</strong> (auth guard) protège les pages privées et renvoie vers la connexion sans jeton.</li>
+            <li>Côté back, les routes sont <strong> réservées aux utilisateurs connectés et limitées à leurs propres données </strong> : la liste, le détail, les statistiques et les rappels ne montrent que les candidatures de l'utilisateur.</li>
           </ul>
 
-          <h3 class="h5 fw-bold mt-4 mb-2">Travail en équipe et enseignements</h3>
-          <p>Une branche par user story, des merges réguliers et un environnement Docker commun. Ce qui nous a le plus ralentis n'était pas le code, mais l'intégration :</p>
+          <h3 class="h5 fw-bold mt-4 mb-2">Travail en équipe, enseignements et points d'amélioration</h3>
+          <p>Une branche par user story, des merges réguliers (localement, puis sur les dépôts distants) et un environnement Docker commun. 
+            De plus, nous avions 3 dépôts : Un front, un back, et ces deux dossiers se trouvaient dans un dossier Docker, contenant la configuration du projet. Concernant les difficultés, ce qui nous a le plus ralentis n'était pas le code, mais l'intégration :</p>
           <ul>
-            <li><strong>Des merges qui écrasaient ou dupliquaient des fichiers</strong> : j'en retiens un contrôle systématique (compilation du front et vérification de la syntaxe du back) avant tout merge dans la branche commune.</li>
-            <li><strong>Un format de réponse API pas toujours défini avant de coder</strong> : le front attendait des champs que le back ne renvoyait pas encore. Je retiens d'écrire, pour chaque user story, une courte fiche (route, méthode, exemple de réponse) validée par le front et le back.</li>
-            <li><strong>Des tests négligés</strong> : les règles de calcul sont isolées dans des services justement pour pouvoir les tester, et ce serait la première étape si le projet continuait.</li>
+            <li><strong>Des merges qui écrasaient ou dupliquaient des fichiers</strong> : n'étant pas familiers avec un versionnement en plusieurs dépôts, nous avons rencontrés quelques dissonances dans le code, lorsque nous devions mettre en commun les fronts et backs récemment fusionnés.</li>
+            <li><strong>Un format de réponse API pas toujours défini avant de coder</strong> : le front attendait des champs que le back ne renvoyait pas encore.</li>
+            <li><strong>Des tests négligés</strong> : les règles de calcul sont isolées dans des services justement pour pouvoir les tester, et ce serait la première étape si le projet continuait. Le reste des tests n'a pas été fait non plus, par manque de temps.</li>
+            <li><strong>Un jeton d'authentification stocké côté navigateur</strong> : le jeton JWT est conservé dans le <code>localStorage</code>, où un script injecté (faille XSS) pourrait le lire. Nous avions identifié la solution, un cookie <code>HttpOnly</code> inaccessible au JavaScript, mais elle demandait de modifier à la fois le back (configuration du bundle JWT et de la déconnexion) et le front (service d'authentification, intercepteur et garde). Faute de temps, elle n'a pas pu être mise en place.</li>
           </ul>
 
           <h2 class="h4 fw-bold mt-4 mb-3">Technologies</h2>

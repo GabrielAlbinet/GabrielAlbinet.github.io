@@ -74,23 +74,29 @@
           </div>
 
           <h2 class="h4 fw-bold mt-5 mb-3">Présentation</h2>
-          <p>Harmonia est une plateforme de streaming musical pour un label indépendant : catalogue d’albums et de morceaux, fiches artistes, classement par genres, playlists personnelles, favoris et historique d’écoute. Le projet est une application Symfony complète, rendue côté serveur avec Twig, développée en cinq jours — de la modélisation des entités jusqu’au back-office et aux interactions sans rechargement.</p>
+          <p>Harmonia est un projet fait au cours de la formation, lors de 
+            notre apprentissage sur Symfony : le principe était de faire une plateforme de streaming musical pour un label indépendant : 
+            catalogue d’albums et de morceaux, fiches artistes, classement par genres, playlists personnelles, favoris et historique d’écoute. 
+            Le projet est une application Symfony complète sur la partie back, avec un front simpliste fait avec Twig. 
+            Développée sur plusieurs jours de formation; de la modélisation des entités jusqu’au back-office et aux interactions sans rechargement (Ajax).</p>
 
           <h3 class="h5 fw-bold mt-4 mb-2">Stack technique</h3>
           <ul>
             <li><strong>Back</strong> : PHP 8.4, Symfony 8.1, Doctrine ORM 3.7, MariaDB</li>
             <li><strong>Front</strong> : Twig, Bootstrap 5, AssetMapper (importmap, sans bundler), JavaScript natif (<code>fetch</code>)</li>
             <li><strong>Sécurité</strong> : SecurityBundle, authenticator personnalisé, hachage automatique des mots de passe, protection CSRF sans état</li>
-            <li><strong>Outils</strong> : Doctrine Migrations, Foundry (jeux de données), profiler Symfony, phpMyAdmin, Git/GitHub</li>
+            <li><strong>Outils</strong> : Doctrine Migrations, phpMyAdmin, Git/GitHub</li>
           </ul>
 
           <h3 class="h5 fw-bold mt-4 mb-2">Modélisation et relations</h3>
-          <p>J’ai modélisé huit entités — User, Artist, Album, Track, Genre, Playlist, Favorite, ListeningHistory — et fait évoluer le schéma par migrations versionnées. Deux choix de modélisation méritent d’être détaillés, parce qu’ils ne vont pas de soi :</p>
+          <p>Il y a 8 entités — User, Artist, Album, Track, Genre, Playlist, Favorite, ListeningHistory — Le schéma a évolué par migrations versionnées. 
+            Quelques précisions sur certains choix :</p>
           <ul>
-            <li><strong>L’historique d’écoute ne pouvait pas être un simple ManyToMany</strong> : un même utilisateur écoute plusieurs fois le même morceau, et chaque écoute doit être horodatée. Une table de liaison ne permet de stocker qu’une seule association ; j’en ai donc fait une entité à part entière, porteuse de sa propre date.</li>
             <li><strong>Les favoris suivent la même logique</strong> : modélisés comme entité dédiée (utilisateur, morceau, date d’ajout) plutôt qu’en relation directe, ce qui permet de savoir <em>quand</em> un morceau a été mis en favori.</li>
+            <li><strong>Le type d’album (album, EP, single) est un Enum PHP typé</strong>, mappé en base par Doctrine : les valeurs possibles sont garanties par le langage lui-même, pas par une convention.</li>
           </ul>
-          <p>Le type d’album (album, EP, single) est une énumération PHP typée, mappée en base par Doctrine : les valeurs possibles sont garanties par le langage lui-même, pas par une convention. Les suppressions en cascade sont déclarées au niveau du mapping : supprimer un artiste retire ses albums, leurs morceaux, et les favoris et écoutes qui s’y rattachent, sans laisser de références orphelines.</p>
+
+          <p>Il y a également l'aspect de la suppression en cascade : supprimer un artiste retire ses albums, leurs morceaux, et les favoris et écoutes qui s’y rattachent, sans laisser de références orphelines.</p>
 
           <h3 class="h5 fw-bold mt-4 mb-2">Architecture et organisation du code</h3>
           <p>J’ai réparti les responsabilités selon le découpage Symfony :</p>
@@ -101,32 +107,31 @@
             <li><strong>Formulaires</strong> : la saisie et sa validation, isolées dans des classes dédiées</li>
             <li><strong>Templates Twig</strong> : l’affichage seul</li>
           </ul>
-          <p>Côté templates, j’ai factorisé ce qui se répétait : un gabarit de base dont toutes les pages héritent, et des composants inclus pour la carte d’album et les sections du catalogue. Les composants sont inclus en contexte isolé, de sorte qu’ils déclarent explicitement ce dont ils ont besoin au lieu de dépendre des variables de la page appelante.</p>
-          <p>La liste des genres affichée dans la navigation posait un problème transverse : chaque contrôleur devait penser à la transmettre, sous peine de casser le menu. Je l’ai sortie dans une extension Twig — une fonction appelée directement depuis le gabarit, qui interroge le repository à la demande. Une vingtaine de méthodes de contrôleur s’en trouvent allégées.</p>
+          <p>Côté templates, j’ai factorisé ce qui se répétait (puisque le front était supposé rester classique): un corps de base dont toutes les pages héritent.</p>
+          <p>La liste des genres affichée dans la navigation posait un problème : chaque contrôleur devait penser à la transmettre (via le repository des genres), sous peine de casser le menu. C'était lourd, et peu pratique. J’ai donc sortie dans une extension Twig, une fonction appelée directement depuis le corps de base , qui interroge lui-même le repository.</p>
 
           <h3 class="h5 fw-bold mt-4 mb-2">Formulaires et validation</h3>
           <p>Chaque entité dispose de son formulaire. Deux cas ont demandé plus qu’une déclaration de champs :</p>
           <ul>
             <li><strong>L’upload de pochette</strong> : le fichier n’est pas une propriété de l’entité, il est traité à part, contraint en taille et en type MIME, renommé puis déplacé, et seul son chemin est stocké. Le même formulaire sert à la création et à la modification, avec une option qui rend la pochette obligatoire uniquement à la création.</li>
-            <li><strong>Les formulaires de suppression</strong> : construits sur une liste déroulante alimentée par les entités existantes, avec filtrage selon l’utilisateur connecté pour les playlists — on ne peut supprimer que les siennes.</li>
+            <li><strong>Les formulaires de suppression</strong> : construits sur une liste déroulante, avec filtrage selon l’utilisateur connecté pour les playlists — on ne peut supprimer que les siennes.</li>
           </ul>
 
           <h3 class="h5 fw-bold mt-4 mb-2">Authentification et sécurité</h3>
           <ul>
-            <li>Authenticator personnalisé, mots de passe hachés automatiquement par Symfony, jamais manipulés en clair</li>
+            <li>Mots de passe hachés automatiquement par Symfony, jamais manipulés en clair</li>
             <li>Connexion persistante par cookie signé (« se souvenir de moi »)</li>
             <li>Protection CSRF sans état : le jeton est comparé à un cookie déposé côté client, sans rien stocker en session, ce qui évite d’occuper la mémoire serveur et reste compatible avec le cache HTTP</li>
-            <li>Affichage conditionné à l’authentification : les actions d’édition et les favoris n’apparaissent qu’aux utilisateurs connectés, et les contrôleurs le vérifient côté serveur plutôt que de se fier au template</li>
+            <li>Affichage conditionné à l’authentification : les actions d’édition et les favoris n’apparaissent qu’aux utilisateurs connectés, et les contrôleurs le vérifient côté serveur plutôt que de se fier au template du front</li>
           </ul>
 
           <h3 class="h5 fw-bold mt-4 mb-2">Interactions sans rechargement</h3>
-          <p>Deux fonctionnalités passent par des requêtes asynchrones, avec des routes limitées au verbe POST qui répondent en JSON :</p>
+          <p>Deux fonctionnalités passent par des requêtes asynchrones (AJAX), avec des routes limitées (POST) qui répondent en JSON :</p>
           <ul>
             <li><strong>Le bouton favori</strong> bascule l’état en base et renvoie le nouvel état ; le JavaScript met à jour le libellé et la couleur du bouton sur place.</li>
             <li><strong>Le bouton d’écoute</strong> incrémente le compteur global du morceau et enregistre une ligne d’historique pour l’utilisateur connecté. La réponse porte le nouveau compteur et la date d’écoute, que le script injecte dans la ligne concernée — en remontant du bouton cliqué jusqu’à son conteneur, pour viser le bon morceau parmi la centaine affichée.</li>
           </ul>
-          <p>Les deux écritures en base sont envoyées en une seule transaction, l’accumulation des changements étant gérée par Doctrine.</p>
-
+          
           <h2 class="h4 fw-bold mt-4 mb-3">Technologies</h2>
           <div class="d-flex flex-wrap gap-1 mb-4">
             <span class="badge text-bg-dark">Symfony</span>
